@@ -1,10 +1,12 @@
-import { StyleSheet, Platform } from 'react-native';
+import { Platform, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#fff',
     paddingHorizontal: Platform.OS === 'web' ? '15%' : 20,
+    justifyContent:'space-between',
+    padding: 6
   },
   content: {
     flex: 1,
