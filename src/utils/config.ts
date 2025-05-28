@@ -1,5 +1,5 @@
 const config = {
-    apiUrl: 'http://api.alissonpeixer.com'
+    apiUrl: 'http://192.168.1.19:8050'
 };
 
 

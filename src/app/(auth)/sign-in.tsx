@@ -1,12 +1,22 @@
+import { LinearGradient } from "expo-linear-gradient";
 import React, { useState } from "react";
-import { Alert, Text, TextInput, TouchableOpacity, View } from "react-native";
-import styles from "./auth.styles";
+import {
+  ActivityIndicator,
+  Alert,
+  KeyboardAvoidingView,
+  Platform,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 
 import { useSession } from "@/src/hooks/auth";
 import config from "@/src/utils/config";
-import axios from 'axios';
+import axios from "axios";
 import { router } from "expo-router";
-
+import styles from "./auth.styles";
 
 interface Form {
   username: string;
@@ -15,63 +25,98 @@ interface Form {
 
 export default function SignIn() {
   const { signIn } = useSession();
-
-
-  const [form, setForm] = useState<Form>({
-    username: '',
-    password: ''
-  });
+  const [form, setForm] = useState<Form>({ username: "", password: "" });
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async () => {
     const { username, password } = form;
-
     if (!username || !password) {
-      Alert.alert('Formulario invalido!',
-        `Campo ${!username ? 'USERNAME' : 'SENHA'} nao preenchido.`
-      )
+      Alert.alert("Formulário inválido!", `Preencha o ${!username ? "usuário" : "senha"}.`);
       return;
-    } else {
-      await axios(`${config.apiUrl}/auth/v1/login/`,{
-        method:'POST',
-        data: form
-      }).then((res)=>{
-        signIn(res.data);
-        router.replace('/');
-      }).catch((err)=> {
-        Alert.alert('ERRO','Erro ao realizar o login');        
-      })
     }
-  }
-  return (
-    <View style={styles.container}>
-      <View>
-        <Text style={styles.title}>Bem-Vindo(a)!</Text>
-        <Text style={styles.subtitle}>PoliBot Gooooooot</Text>
-      </View>
-      <View style={{ gap: 10 }}>
-        <TextInput
-          style={{ borderWidth: 1, borderRadius: 20, padding: 14, borderColor: '#424242' }}
-          placeholder="Username"
-          onChangeText={(text) => setForm(e => ({ ...e, username: text }))}
-          value={form.username}
-        ></TextInput>
-        <TextInput
-          style={{ borderWidth: 1, borderRadius: 20, padding: 14, borderColor: '#424242' }}
-          placeholder="Password"
-          secureTextEntry={true}
-          onChangeText={(text) => setForm(e => ({ ...e, password: text }))}
-          value={form.password}
-        ></TextInput>
-      </View>
-      <TouchableOpacity
-        onPress={handleSubmit}
-        style={{ borderWidth: 1, borderRadius: 20, padding: 10, borderColor: '#424242', alignItems: 'center', backgroundColor: '#595151' }}>
-        <Text style={{ color: 'white' }}>Logar</Text>
-      </TouchableOpacity>
+    setLoading(true);
+    try {
+      const res = await axios(`${config.apiUrl}/auth/login/`, {
+        method: "POST",
+        data: form,
+      });
+      signIn(res.data);
+      router.replace("/");
+    } catch {
+      Alert.alert("Erro", "Não foi possível logar. Tente novamente.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-      <TouchableOpacity style={{alignItems:'center'}} onPress={()=>router.replace('/(auth)/sign-up')}>
-        <Text>Nao possui uma conta? Registrar-se</Text>
-      </TouchableOpacity>
-    </View>
-  )
+  return (
+    <LinearGradient
+      colors={["#1f2937", "#111827"]}
+      style={styles.containerGradient}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 1, y: 1 }}
+    >
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        style={styles.keyboardAvoidingView}
+      >
+        <Animated.View
+          entering={FadeInDown.duration(400)}
+          style={styles.headerContainer}
+        >
+          <Text style={styles.title}>PoliBot</Text>
+          <Text style={styles.subtitle}>Bem-vindo de volta</Text>
+        </Animated.View>
+
+        <Animated.View
+          entering={FadeInUp.duration(400).delay(150)}
+          style={styles.formContainer}
+        >
+          <TextInput
+            style={styles.input}
+            placeholder="Usuário"
+            placeholderTextColor="#6b7280"
+            onChangeText={(t) => setForm((f) => ({ ...f, username: t }))}
+            value={form.username}
+            autoCapitalize="none"
+          />
+          <View style={styles.separator} />
+          <TextInput
+            style={styles.input}
+            placeholder="Senha"
+            placeholderTextColor="#6b7280"
+            secureTextEntry
+            onChangeText={(t) => setForm((f) => ({ ...f, password: t }))}
+            value={form.password}
+          />
+
+          <TouchableOpacity
+            onPress={handleSubmit}
+            style={[
+              styles.button,
+              loading && { opacity: 0.7 }
+            ]}
+            activeOpacity={0.8}
+            disabled={loading}
+          >
+            {loading
+              ? <ActivityIndicator size="small" color="#fff" />
+              : <Text style={styles.buttonText}>Entrar</Text>
+            }
+          </TouchableOpacity>
+        </Animated.View>
+
+        <TouchableOpacity
+          style={styles.signUpTextContainer}
+          onPress={() => router.replace("/(auth)/sign-up")}
+          disabled={loading}
+        >
+          <Text style={[styles.signUpText,{ fontFamily: 'Poppins_400Regular' }]}>
+            Não tem conta?{" "}
+            <Text style={styles.signUpTextBold}>Cadastre-se</Text>
+          </Text>
+        </TouchableOpacity>
+      </KeyboardAvoidingView>
+    </LinearGradient>
+  );
 }

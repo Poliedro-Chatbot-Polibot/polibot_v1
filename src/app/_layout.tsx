@@ -1,39 +1,49 @@
-import { useFonts } from 'expo-font';
+import { Poppins_400Regular, Poppins_600SemiBold, useFonts as usePoppins } from '@expo-google-fonts/poppins';
 import React from 'react';
-import { StyleSheet, Text } from 'react-native';
+import { StatusBar, StyleSheet, Text, View } from 'react-native';
 import 'react-native-reanimated';
+
 import RootNavigator from '../components/RootNavigator';
 import { SplashScreenController } from '../components/SplashScreenController';
 import { SessionProvider } from '../hooks/auth';
 
-
-
-
 export default function RootLayout() {
+  const [loaded] = usePoppins({
+    Poppins_400Regular,
+    Poppins_600SemiBold,
+  });
 
-    const [loaded] = useFonts({
-        SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-    });
-
-    if (!loaded) {
-        return <Text>Carregando...</Text>;
-    }
-
+  if (!loaded) {
     return (
-        <SessionProvider>
-            <SplashScreenController />
-            <RootNavigator />
-        </SessionProvider>
+      <View style={styles.container}>
+        <StatusBar barStyle="light-content" backgroundColor={styles.container.backgroundColor} />
+        <Text style={[styles.text, { fontFamily: 'Poppins_400Regular' }]}>
+          Carregando...
+        </Text>
+      </View>
     );
+  }
+
+  return (
+    <SessionProvider>
+      <View style={styles.container}>
+        <StatusBar barStyle="light-content" backgroundColor={styles.container.backgroundColor} />
+        <SplashScreenController />
+        <RootNavigator />
+      </View>
+    </SessionProvider>
+  );
 }
 
-
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#023047',
-    },
-    text: {
-        color: 'white',
-    },
+  container: {
+    flex: 1,
+    backgroundColor: '#023047',
+  },
+  text: {
+    color: '#fff',
+    alignSelf: 'center',
+    marginTop: 40,
+    fontSize: 16,
+  },
 });
