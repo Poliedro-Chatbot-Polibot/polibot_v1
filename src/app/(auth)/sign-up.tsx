@@ -12,7 +12,6 @@ import {
 } from "react-native";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 
-import { useSession } from "@/src/hooks/auth";
 import config from "@/src/utils/config";
 import axios from "axios";
 import { router } from "expo-router";
@@ -26,8 +25,8 @@ interface Form {
   password: string;
 }
 
-export default function SignUp() {
-  const { signIn } = useSession();
+export default function SignUpScreen() {
+
   const [form, setForm] = useState<Form>({
     username: "",
     email: "",

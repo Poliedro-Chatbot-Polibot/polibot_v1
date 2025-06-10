@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 
-export default StyleSheet.create({
+const style =  StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#0f172a',
@@ -26,7 +26,7 @@ export default StyleSheet.create({
   profile: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 14,
+    margin: 20
   },
   avatar: {
     width: 58,
@@ -84,4 +84,15 @@ export default StyleSheet.create({
     fontWeight: '600',
     color: '#60a5fa',
   },
+  avatarContainer: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginRight: 15,
+    backgroundColor: '#312e81',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 });
+
+export default style;

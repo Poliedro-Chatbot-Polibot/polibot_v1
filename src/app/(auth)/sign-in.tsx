@@ -23,7 +23,7 @@ interface Form {
   password: string;
 }
 
-export default function SignIn() {
+export default function SignInScreen() {
   const { signIn } = useSession();
   const [form, setForm] = useState<Form>({ username: "", password: "" });
   const [loading, setLoading] = useState(false);

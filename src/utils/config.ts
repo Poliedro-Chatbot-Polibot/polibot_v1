@@ -1,5 +1,5 @@
 const config = {
-    apiUrl: 'http://192.168.1.19:8050'
+    apiUrl: 'http://192.168.1.17:8050'
 };
 
 
