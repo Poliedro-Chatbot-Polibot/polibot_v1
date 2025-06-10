@@ -292,7 +292,7 @@ export default function PedidoListaScreen() {
                     <Text style={styles.itemName}>{pedidoItem.produto?.nome || 'Produto Removido'}</Text>
                     {pedidoItem.configuracao_partes.map((parte, index) => (
                       <Text key={`${parte.parte_produto?.id}-${index}`} style={styles.itemParte}>
-                        - {parte.quantidade}x {parte?.nome || 'Insumo Removido'} - R$ {parte.preco}
+                        - {parte.quantidade}x {parte?.nome || 'Insumo Removido'} - R$ {parte?.preco || 0}
                       </Text>
                     ))}
                     {!!pedidoItem.observacao && <Text style={styles.itemObs}>Obs: {pedidoItem.observacao}</Text>}
