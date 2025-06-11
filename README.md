@@ -1,50 +1,72 @@
-# Welcome to your Expo app 👋
+# PoliBot - Frontend (React Native + Expo)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Frontend do projeto PoliBot, desenvolvido como um aplicativo mobile multiplataforma usando React Native e o framework Expo. Este aplicativo fornece a interface de usuário para interagir com o chatbot, consumindo a API do [repositório de backend](https://github.com/Poliedro-Chatbot-Polibot/backend_django).
 
-## Get started
+## ✨ Tecnologias
 
-1. Install dependencies
+* React Native
+* Expo SDK
+* JavaScript
+* Axios (para chamadas de API)
+* React Navigation (para navegação entre telas)
 
-   ```bash
-   npm install
-   ```
+## 📋 Pré-requisitos
 
-2. Start the app
+* **Node.js (LTS)** e **NPM** ou **Yarn**.
+* O aplicativo **Expo Go** instalado no seu celular (Android ou iOS).
+* O **[Backend do PoliBot](https://github.com/Poliedro-Chatbot-Polibot/backend_django) deve estar rodando** na sua máquina local.
 
-   ```bash
-   npx expo start
-   ```
+## 🚀 Como Executar o Projeto
 
-In the output, you'll find options to open the app in a
+1.  **Clone o repositório:**
+    ```bash
+    git clone [https://github.com/Poliedro-Chatbot-Polibot/polibot_v1.git](https://github.com/Poliedro-Chatbot-Polibot/polibot_v1.git)
+    ```
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+2.  **Navegue até a pasta do projeto:**
+    ```bash
+    cd polibot_v1
+    ```
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+3.  **Instale as dependências:**
+    ```bash
+    npm install
+    ```
 
-## Get a fresh project
+4.  **Configure a URL da API (IMPORTANTE!):**
+    Crie um arquivo `.env` na raiz do projeto para guardar o endereço da sua API backend.
+    ```bash
+    # Exemplo de como criar e configurar o arquivo .env
+    echo "API_URL=http://SEU_IP_LOCAL:8000" > .env
+    ```
+    **Atenção:** Você precisa substituir `SEU_IP_LOCAL` pelo endereço de IP da sua máquina na sua rede Wi-Fi. Veja a seção abaixo sobre como fazer isso.
 
-When you're ready, run:
+5.  **Inicie o servidor de desenvolvimento do Expo:**
+    ```bash
+    npm start
+    ```
+    *(ou `expo start`)*
 
-```bash
-npm run reset-project
-```
+6.  **Abra o aplicativo no seu celular:**
+    Um QR Code aparecerá no terminal. Abra o aplicativo **Expo Go** no seu celular e escaneie este QR Code para carregar o projeto.
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## 🔌 Conexão com o Backend (Passo Crítico)
 
-## Learn more
+Para que o aplicativo no seu celular consiga "conversar" com o backend que está rodando no seu computador, você **não pode** usar `localhost`. Você precisa usar o endereço de IP do seu computador na rede local.
 
-To learn more about developing your project with Expo, look at the following resources:
+**1. Encontre o seu Endereço de IP Local:**
+* **No Windows:** Abra o `cmd` e digite `ipconfig`. Procure pelo "Endereço IPv4" na sua conexão Wi-Fi ou Ethernet.
+* **No macOS ou Linux:** Abra o terminal e digite `ifconfig` ou `ip a`. Procure pelo endereço na seção `en0` ou `wlan0`.
+    * O endereço será algo como `192.168.0.10` ou `192.168.1.5`.
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+**2. Configure o Arquivo `.env`:**
+* Abra o arquivo `.env` que você criou e certifique-se de que a variável `API_URL` está configurada com o IP que você encontrou.
+    * *Exemplo:* `API_URL=http://192.168.0.10:8000`
 
-## Join the community
+**Observação:** Seu celular e seu computador precisam estar conectados na **mesma rede Wi-Fi**.
 
-Join our community of developers creating universal apps.
+## 👨‍💻 Autores
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+* Victhor Castro
+* Pedro Canova
+* Robert Kevyn
